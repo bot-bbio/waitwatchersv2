@@ -1,0 +1,16 @@
+﻿# Binaries
+mach.exe
+main.wasm
+
+# Internal Documentation (Conductor)
+conductor/
+
+# Agentic Workflow & Harness
+STRATEGY.md
+WORKFLOW.md
+bootstrap.ps1
+serve_local.go
+
+# Go environment
+vendor/
+go.sum

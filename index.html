@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaitWatchersV2 - NYC Subway Decision Engine</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="wasm_exec.js"></script>
+    <script src="main.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>WaitWatchersV2</h1>
+        
+        <div id="status" class="status-msg">Initializing Decision Engine...</div>
+
+        <div class="input-group">
+            <label for="origin">Origin Station</label>
+            <input type="text" id="origin" placeholder="e.g. 96 St" list="station-options" autocomplete="off">
+        </div>
+
+        <div class="input-group">
+            <label for="destination">Destination Station</label>
+            <input type="text" id="destination" placeholder="e.g. Times Sq-42 St" list="station-options" autocomplete="off">
+        </div>
+
+        <datalist id="station-options">
+            <!-- Populated by main.js -->
+        </datalist>
+
+        <button id="calculate-btn" disabled>Calculate Wait Delta</button>
+
+        <div id="results">
+            <!-- Results will be injected here by main.js -->
+        </div>
+    </div>
+</body>
+</html>

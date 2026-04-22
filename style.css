@@ -1,0 +1,219 @@
+:root {
+    --mta-red: #EE352E;
+    --mta-blue: #0039A6;
+    --mta-green: #00933C;
+    --mta-yellow: #FCCC0A;
+    --mta-orange: #FF6319;
+    --mta-purple: #B933AD;
+    --mta-dark-grey: #222222;
+    --mta-light-grey: #D9D9D9;
+    --mta-white: #FFFFFF;
+}
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: var(--mta-dark-grey);
+    color: var(--mta-white);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    color: var(--mta-yellow);
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid var(--mta-white);
+    background-color: var(--mta-dark-grey);
+    color: var(--mta-white);
+    font-size: 1.2rem;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 20px;
+    background-color: var(--mta-green);
+    color: var(--mta-white);
+    border: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin-top: 10px;
+}
+
+button:active {
+    background-color: #007a30;
+}
+
+.secondary-btn {
+    background-color: var(--mta-light-grey);
+    color: var(--mta-dark-grey);
+    font-size: 1rem;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+.secondary-btn:active {
+    background-color: #bbbbbb;
+}
+
+
+#results {
+    margin-top: 40px;
+    width: 100%;
+    padding: 20px;
+    border: 3px solid var(--mta-yellow);
+    display: none;
+}
+
+.recommendation {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.arrival-times {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.delta {
+    font-size: 1.5rem;
+    text-align: center;
+    color: var(--mta-yellow);
+}
+
+.status-msg {
+    margin-top: 10px;
+    font-style: italic;
+    color: var(--mta-light-grey);
+}
+
+/* Autocomplete */
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid var(--mta-white);
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: var(--mta-dark-grey);
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.autocomplete-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--mta-white);
+}
+
+.autocomplete-item:hover {
+    background-color: #444444;
+}
+
+/* Results Display */
+.result-card {
+    border: 3px solid var(--mta-yellow);
+    padding: 20px;
+    margin-top: 30px;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.line-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.line-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: white;
+}
+
+.line-1 { background-color: #EE352E; }
+.line-2 { background-color: #EE352E; }
+.line-3 { background-color: #EE352E; }
+.line-4 { background-color: #00933C; }
+.line-5 { background-color: #00933C; }
+.line-6 { background-color: #00933C; }
+.line-7 { background-color: #B933AD; }
+.line-A { background-color: #0039A6; }
+.line-C { background-color: #0039A6; }
+.line-E { background-color: #0039A6; }
+.line-B { background-color: #FF6319; }
+.line-D { background-color: #FF6319; }
+.line-F { background-color: #FF6319; }
+.line-M { background-color: #FF6319; }
+.line-N { background-color: #FCCC0A; color: black; }
+.line-Q { background-color: #FCCC0A; color: black; }
+.line-R { background-color: #FCCC0A; color: black; }
+.line-W { background-color: #FCCC0A; color: black; }
+.line-G { background-color: #6CBE45; }
+.line-L { background-color: #A7A9AC; }
+.line-J { background-color: #996633; }
+.line-Z { background-color: #996633; }
+
+.arrival-time {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.wait-delta-text {
+    font-size: 1.8rem;
+    color: var(--mta-yellow);
+    text-align: center;
+    margin: 20px 0;
+}
+
+.action-prompt {
+    font-size: 2rem;
+    text-align: center;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--mta-white);
+}
+
