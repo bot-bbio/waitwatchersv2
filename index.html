@@ -4,35 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WaitWatchersV2 - NYC Subway Decision Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="wasm_exec.js"></script>
     <script src="main.js"></script>
 </head>
 <body>
+    <div class="background-grid"></div>
+    <div class="background-glow"></div>
+    
     <div class="container">
-        <h1>WaitWatchersV2</h1>
+        <header>
+            <div class="logo-container">
+                <div class="logo-subway-badge">W</div>
+                <h1>WaitWatchers<span>v2</span></h1>
+            </div>
+            <p class="subtitle">NYC Subway Real-Time Decision Engine</p>
+        </header>
         
-        <div id="status" class="status-msg">Initializing Decision Engine...</div>
+        <main class="main-card">
+            <div id="status" class="status-msg">Initializing Decision Engine...</div>
+            
+            <form id="calculator-form" onsubmit="return false;">
+                <!-- Origin Input -->
+                <div class="input-group" id="origin-group">
+                    <label for="origin">Origin Station</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="12" r="4" fill="currentColor"/>
+                            </svg>
+                        </span>
+                        <input type="text" id="origin" placeholder="Select starting station..." autocomplete="off">
+                        <button type="button" class="clear-btn" id="clear-origin" style="display: none;">&times;</button>
+                    </div>
+                    <div class="autocomplete-dropdown" id="origin-dropdown"></div>
+                </div>
 
-        <div class="input-group">
-            <label for="origin">Origin Station</label>
-            <input type="text" id="origin" placeholder="e.g. 96 St" list="station-options" autocomplete="off">
+                <!-- Swap Button -->
+                <div class="swap-wrapper">
+                    <button id="swap-btn" type="button" class="swap-button" title="Swap Stations">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M16 17.01V10h-2v7.01h-3L15 21l4-3.99h-3zM9 3L5 6.99h3V14h2V6.99h3L9 3z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Destination Input -->
+                <div class="input-group" id="destination-group">
+                    <label for="destination">Destination Station</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <path fill="none" stroke="currentColor" stroke-width="2" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                                <circle cx="12" cy="9" r="3" fill="currentColor"/>
+                            </svg>
+                        </span>
+                        <input type="text" id="destination" placeholder="Select destination..." autocomplete="off">
+                        <button type="button" class="clear-btn" id="clear-dest" style="display: none;">&times;</button>
+                    </div>
+                    <div class="autocomplete-dropdown" id="destination-dropdown"></div>
+                </div>
+
+                <!-- Calculate Button -->
+                <button id="calculate-btn" class="primary-btn" disabled>
+                    <span>Calculate Wait Delta</span>
+                    <div class="spinner" id="btn-spinner"></div>
+                </button>
+            </form>
+        </main>
+
+        <!-- Loading / Progress State -->
+        <div id="engine-loader" class="loader-card" style="display: none;">
+            <div class="track-loader">
+                <div class="track-line"></div>
+                <div class="train-car"></div>
+            </div>
+            <p>Fetching real-time GTFS-RT feeds from the MTA...</p>
         </div>
 
-        <div class="input-group">
-            <label for="destination">Destination Station</label>
-            <input type="text" id="destination" placeholder="e.g. Times Sq-42 St" list="station-options" autocomplete="off">
+        <!-- Calculation Results -->
+        <div id="results" style="display: none;">
+            <!-- Injected by main.js -->
         </div>
-
-        <datalist id="station-options">
-            <!-- Populated by main.js -->
-        </datalist>
-
-        <button id="calculate-btn" disabled>Calculate Wait Delta</button>
-
-        <div id="results">
-            <!-- Results will be injected here by main.js -->
-        </div>
+        
+        <footer>
+            <p>Powered by official MTA Real-Time Feeds • Accuracy &plusmn;2m</p>
+        </footer>
     </div>
 </body>
 </html>

@@ -118,3 +118,35 @@ func TestCalculateWaitDeltaNoRoutes(t *testing.T) {
 		t.Error("expected error for no routes, got nil")
 	}
 }
+
+func TestCalculateWaitDeltaTerminalStation(t *testing.T) {
+	now := time.Now()
+	// Origin (242 St, ID: 101) is a terminal, so it only has DepartureTime.
+	// Destination (72 St, ID: 123) has ArrivalTime.
+	preds := []models.Prediction{
+		{TrainID: "T1", StationID: "101", DepartureTime: now.Add(3 * time.Minute), Line: "1"}, // Only DepartureTime
+		{TrainID: "T1", StationID: "123", ArrivalTime: now.Add(23 * time.Minute), Line: "1"},
+		{TrainID: "T2", StationID: "101", DepartureTime: now.Add(5 * time.Minute), Line: "2"},
+		{TrainID: "T2", StationID: "123", ArrivalTime: now.Add(21 * time.Minute), Line: "2"},
+	}
+
+	res, err := CalculateWaitDelta(preds, []string{"101"}, []string{"123"})
+	if err != nil {
+		t.Fatalf("CalculateWaitDelta failed: %v", err)
+	}
+
+	if len(res.Options) < 2 {
+		t.Fatalf("expected 2 options, got %d", len(res.Options))
+	}
+
+	// T2 is faster: arrives at now.Add(21 * time.Minute)
+	// T1 is slower: arrives at now.Add(23 * time.Minute)
+	if res.Options[0].Line != "2" || res.Options[1].Line != "1" {
+		t.Errorf("expected lines 2 and 1, got %s and %s", res.Options[0].Line, res.Options[1].Line)
+	}
+
+	expected := -2 * time.Minute
+	if res.WaitDelta != expected {
+		t.Errorf("expected delta %v, got %v", expected, res.WaitDelta)
+	}
+}

@@ -1,219 +1,626 @@
 :root {
-    --mta-red: #EE352E;
-    --mta-blue: #0039A6;
-    --mta-green: #00933C;
-    --mta-yellow: #FCCC0A;
-    --mta-orange: #FF6319;
-    --mta-purple: #B933AD;
-    --mta-dark-grey: #222222;
-    --mta-light-grey: #D9D9D9;
-    --mta-white: #FFFFFF;
+    /* Color Palette */
+    --bg-primary: #0b0e14; /* hsl(220, 28%, 6%) */
+    --bg-card: rgba(20, 25, 35, 0.65);
+    --bg-card-hover: rgba(30, 38, 54, 0.8);
+    --border-glass: rgba(255, 255, 255, 0.07);
+    --border-glass-focus: rgba(0, 180, 255, 0.3);
+    
+    --text-primary: #f1f5f9;
+    --text-muted: #94a3b8;
+    --text-inactive: #64748b;
+    
+    --accent-cyan: #00d2ff;
+    --accent-blue: #0084ff;
+    --accent-yellow: #f59e0b;
+    --accent-green: #10b981;
+    --accent-red: #ef4444;
+    
+    /* Font Families */
+    --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    
+    /* Shadows & Glows */
+    --shadow-main: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --shadow-glow: 0 0 20px rgba(0, 210, 255, 0.15);
+    
+    /* MTA Line Colors */
+    --line-red: #ee352e;
+    --line-green: #00933c;
+    --line-purple: #b933ad;
+    --line-blue: #0039a6;
+    --line-orange: #ff6319;
+    --line-yellow: #fccc0a;
+    --line-lime: #6cbe45;
+    --line-grey: #a7a9ac;
+    --line-brown: #996633;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-color: var(--mta-dark-grey);
-    color: var(--mta-white);
-    margin: 0;
-    padding: 20px;
+    font-family: var(--font-body);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    overflow-x: hidden;
+    position: relative;
+    padding: 20px;
 }
 
-h1 {
-    color: var(--mta-yellow);
-    font-size: 2.5rem;
-    margin-bottom: 30px;
-    text-transform: uppercase;
+/* Background Visuals */
+.background-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -2;
 }
 
+.background-glow {
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 132, 255, 0.12) 0%, transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Main Container */
 .container {
     width: 100%;
-    max-width: 500px;
-}
-
-.input-group {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-input {
-    width: 100%;
-    padding: 15px;
-    border: 2px solid var(--mta-white);
-    background-color: var(--mta-dark-grey);
-    color: var(--mta-white);
-    font-size: 1.2rem;
-    box-sizing: border-box;
-}
-
-button {
-    width: 100%;
-    padding: 20px;
-    background-color: var(--mta-green);
-    color: var(--mta-white);
-    border: none;
-    font-size: 1.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    text-transform: uppercase;
-    margin-top: 10px;
-}
-
-button:active {
-    background-color: #007a30;
-}
-
-.secondary-btn {
-    background-color: var(--mta-light-grey);
-    color: var(--mta-dark-grey);
-    font-size: 1rem;
-    padding: 10px;
-    margin-top: 5px;
-}
-
-.secondary-btn:active {
-    background-color: #bbbbbb;
-}
-
-
-#results {
-    margin-top: 40px;
-    width: 100%;
-    padding: 20px;
-    border: 3px solid var(--mta-yellow);
-    display: none;
-}
-
-.recommendation {
-    font-size: 2rem;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.arrival-times {
+    max-width: 480px;
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
+    flex-direction: column;
+    gap: 25px;
+    animation: fadeIn 0.8s ease-out;
 }
 
-.delta {
-    font-size: 1.5rem;
+/* Header */
+header {
     text-align: center;
-    color: var(--mta-yellow);
+    margin-bottom: 5px;
 }
 
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.logo-subway-badge {
+    width: 38px;
+    height: 38px;
+    background-color: var(--accent-yellow);
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 1.6rem;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+    animation: pulseGlow 3s infinite;
+}
+
+header h1 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 2.2rem;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+}
+
+header h1 span {
+    color: var(--accent-cyan);
+    font-weight: 400;
+    font-size: 1.5rem;
+    margin-left: 2px;
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+}
+
+/* Glassmorphic Main Card */
+.main-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: var(--shadow-main);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    position: relative;
+    overflow: visible;
+}
+
+/* Status Indicator */
 .status-msg {
-    margin-top: 10px;
-    font-style: italic;
-    color: var(--mta-light-grey);
+    font-size: 0.85rem;
+    color: var(--accent-cyan);
+    background: rgba(0, 210, 255, 0.08);
+    border: 1px solid rgba(0, 210, 255, 0.2);
+    border-radius: 30px;
+    padding: 6px 16px;
+    display: inline-block;
+    margin-bottom: 25px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    text-align: center;
+    width: 100%;
 }
 
-/* Autocomplete */
-.autocomplete-items {
+/* Forms & Inputs */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+}
+
+.input-group label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-icon {
     position: absolute;
-    border: 1px solid var(--mta-white);
-    border-bottom: none;
-    border-top: none;
-    z-index: 99;
-    top: 100%;
+    left: 15px;
+    color: var(--text-inactive);
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    transition: color 0.3s;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 16px 45px 16px 45px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-wrapper input:focus {
+    border-color: var(--accent-blue);
+    background: rgba(15, 23, 42, 0.9);
+    box-shadow: 0 0 12px rgba(0, 132, 255, 0.15);
+}
+
+.input-wrapper input:focus + .input-icon,
+.input-wrapper input:not(:placeholder-shown) ~ .input-icon {
+    color: var(--accent-cyan);
+}
+
+/* Clear Button */
+.clear-btn {
+    position: absolute;
+    right: 15px;
+    background: none;
+    border: none;
+    color: var(--text-inactive);
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.clear-btn:hover {
+    color: var(--text-primary);
+}
+
+/* Swap Button */
+.swap-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: -10px 0;
+    z-index: 10;
+    position: relative;
+}
+
+.swap-button {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-glass);
+    color: var(--text-muted);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.swap-button:hover {
+    color: var(--accent-cyan);
+    border-color: var(--border-glass-focus);
+    transform: rotate(180deg);
+}
+
+.swap-button:active {
+    transform: scale(0.9) rotate(180deg);
+}
+
+/* Autocomplete Suggestion Dropdowns */
+.autocomplete-dropdown {
+    position: absolute;
+    top: calc(100% + 5px);
     left: 0;
     right: 0;
-    max-height: 200px;
+    background: #0f172a;
+    border: 1px solid var(--border-glass-focus);
+    border-radius: 12px;
+    max-height: 220px;
     overflow-y: auto;
-    background-color: var(--mta-dark-grey);
+    z-index: 100;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    display: none;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
-.input-group {
-    position: relative;
-    margin-bottom: 20px;
+.autocomplete-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.autocomplete-dropdown::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
 }
 
 .autocomplete-item {
-    padding: 10px;
+    padding: 14px 18px;
     cursor: pointer;
-    border-bottom: 1px solid var(--mta-white);
+    transition: background 0.2s;
+    font-size: 0.95rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.autocomplete-item:hover {
-    background-color: #444444;
+.autocomplete-item:last-child {
+    border-bottom: none;
 }
 
-/* Results Display */
+.autocomplete-item:hover,
+.autocomplete-item.active {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--accent-cyan);
+}
+
+/* Calculate Action Button */
+.primary-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--accent-blue) 0%, #0044ff 100%);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 132, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.primary-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 132, 255, 0.45);
+    background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+}
+
+.primary-btn:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.primary-btn:disabled {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    color: var(--text-inactive);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Loader Layout */
+.loader-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: var(--shadow-main);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Custom Train loader animation */
+.track-loader {
+    position: relative;
+    width: 200px;
+    height: 12px;
+    margin: 15px 0;
+}
+
+.track-line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: var(--border-glass);
+    top: 5px;
+    border-radius: 2px;
+}
+
+.train-car {
+    position: absolute;
+    width: 35px;
+    height: 8px;
+    background: var(--accent-cyan);
+    border-radius: 4px;
+    top: 2px;
+    box-shadow: 0 0 10px var(--accent-cyan);
+    animation: trainPass 1.6s infinite ease-in-out;
+}
+
+@keyframes trainPass {
+    0% { left: -10%; width: 10px; }
+    50% { left: 45%; width: 45px; }
+    100% { left: 110%; width: 10px; }
+}
+
+/* Results Formatting */
 .result-card {
-    border: 3px solid var(--mta-yellow);
-    padding: 20px;
-    margin-top: 30px;
-    background-color: rgba(255, 255, 255, 0.05);
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: var(--shadow-main);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.action-prompt {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 1.5rem;
+    text-align: center;
+    letter-spacing: -0.2px;
+}
+
+.prompt-take {
+    background: linear-gradient(135deg, #fff 30%, var(--accent-cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.prompt-either {
+    color: var(--text-primary);
+}
+
+.wait-delta-text {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--accent-yellow);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.wait-delta-text span {
+    font-size: 0.8rem;
+    font-family: var(--font-body);
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .line-info {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    transition: background 0.3s;
+}
+
+.line-info:hover {
+    background: rgba(15, 23, 42, 0.7);
+}
+
+.line-left {
+    display: flex;
+    align-items: center;
     gap: 15px;
-    margin-bottom: 15px;
 }
 
 .line-badge {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
-    font-size: 1.2rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.15rem;
     color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.line-1 { background-color: #EE352E; }
-.line-2 { background-color: #EE352E; }
-.line-3 { background-color: #EE352E; }
-.line-4 { background-color: #00933C; }
-.line-5 { background-color: #00933C; }
-.line-6 { background-color: #00933C; }
-.line-7 { background-color: #B933AD; }
-.line-A { background-color: #0039A6; }
-.line-C { background-color: #0039A6; }
-.line-E { background-color: #0039A6; }
-.line-B { background-color: #FF6319; }
-.line-D { background-color: #FF6319; }
-.line-F { background-color: #FF6319; }
-.line-M { background-color: #FF6319; }
-.line-N { background-color: #FCCC0A; color: black; }
-.line-Q { background-color: #FCCC0A; color: black; }
-.line-R { background-color: #FCCC0A; color: black; }
-.line-W { background-color: #FCCC0A; color: black; }
-.line-G { background-color: #6CBE45; }
-.line-L { background-color: #A7A9AC; }
-.line-J { background-color: #996633; }
-.line-Z { background-color: #996633; }
+/* NYC Subway Badge Specific Colors */
+.line-1, .line-2, .line-3 { background-color: var(--line-red); }
+.line-4, .line-5, .line-6 { background-color: var(--line-green); }
+.line-7 { background-color: var(--line-purple); }
+.line-A, .line-C, .line-E { background-color: var(--line-blue); }
+.line-B, .line-D, .line-F, .line-M { background-color: var(--line-orange); }
+.line-N, .line-Q, .line-R, .line-W { background-color: var(--line-yellow); color: #000; }
+.line-G { background-color: var(--line-lime); }
+.line-L { background-color: var(--line-grey); }
+.line-J, .line-Z { background-color: var(--line-brown); }
+
+.arrival-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
 
 .arrival-time {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
 }
 
-.wait-delta-text {
-    font-size: 1.8rem;
-    color: var(--mta-yellow);
+.time-tag-fastest {
+    font-size: 0.75rem;
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--accent-green);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 30px;
+    padding: 3px 10px;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+/* Secondary Actions */
+.secondary-btn {
+    width: 100%;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
     text-align: center;
-    margin: 20px 0;
 }
 
-.action-prompt {
-    font-size: 2rem;
+.secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Footer style */
+footer {
     text-align: center;
-    font-weight: 900;
-    text-transform: uppercase;
-    color: var(--mta-white);
+    padding: 10px 0;
 }
 
+footer p {
+    font-size: 0.75rem;
+    color: var(--text-inactive);
+    letter-spacing: 0.3px;
+}
+
+/* Utilities */
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 0.8s linear infinite;
+    display: none;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
+    50% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.6); }
+}
+
+/* Animations for swapping */
+.rotate-swap {
+    animation: rotateSwapAnim 0.3s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes rotateSwapAnim {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(180deg); }
+}

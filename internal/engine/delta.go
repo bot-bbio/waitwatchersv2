@@ -75,9 +75,17 @@ func findLineArrivals(preds []models.Prediction, originIDs, destIDs []string, no
 	trainsAtOrigin := make(map[string]time.Time)
 	for _, p := range preds {
 		for _, originID := range originIDs {
-			if strings.HasPrefix(p.StationID, originID) && p.ArrivalTime.After(now) {
-				trainsAtOrigin[p.TrainID] = p.ArrivalTime
-				break
+			if strings.HasPrefix(p.StationID, originID) {
+				// Use ArrivalTime if set, otherwise fall back to DepartureTime
+				originTime := p.ArrivalTime
+				if originTime.IsZero() {
+					originTime = p.DepartureTime
+				}
+
+				if !originTime.IsZero() && originTime.After(now) {
+					trainsAtOrigin[p.TrainID] = originTime
+					break
+				}
 			}
 		}
 	}
@@ -92,12 +100,18 @@ func findLineArrivals(preds []models.Prediction, originIDs, destIDs []string, no
 					continue
 				}
 
-				if !p.ArrivalTime.After(originArrival) {
+				// Use ArrivalTime if set, otherwise fall back to DepartureTime
+				destTime := p.ArrivalTime
+				if destTime.IsZero() {
+					destTime = p.DepartureTime
+				}
+
+				if destTime.IsZero() || !destTime.After(originArrival) {
 					continue
 				}
 
-				if current, ok := bestLineArrivals[p.Line]; !ok || p.ArrivalTime.Before(current) {
-					bestLineArrivals[p.Line] = p.ArrivalTime
+				if current, ok := bestLineArrivals[p.Line]; !ok || destTime.Before(current) {
+					bestLineArrivals[p.Line] = destTime
 				}
 				break
 			}

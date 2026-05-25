@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"syscall/js"
 	"time"
 
@@ -35,7 +36,7 @@ func calculateWaitDeltaWrapper(this js.Value, args []js.Value) interface{} {
 				return
 			}
 
-			urls := []string{
+			mtaURLs := []string{
 				"https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs",
 				"https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace",
 				"https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm",
@@ -45,6 +46,28 @@ func calculateWaitDeltaWrapper(this js.Value, args []js.Value) interface{} {
 				"https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l",
 				"https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-7",
 			}
+
+			// Determine if we should proxy through our local server (CORS bypass in browser)
+			window := js.Global().Get("window")
+			var useProxy bool
+			var origin string
+			if window.Truthy() {
+				location := window.Get("location")
+				if location.Truthy() {
+					origin = location.Get("origin").String()
+					useProxy = origin != "" && origin != "null" && origin != "undefined"
+				}
+			}
+
+			urls := make([]string, len(mtaURLs))
+			for i, u := range mtaURLs {
+				if useProxy {
+					urls[i] = fmt.Sprintf("%s/api/mta?url=%s", origin, url.QueryEscape(u))
+				} else {
+					urls[i] = u
+				}
+			}
+
 			client := mta.NewClient(urls...)
 
 			ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
