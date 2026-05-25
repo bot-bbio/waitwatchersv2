@@ -624,3 +624,41 @@ footer p {
     from { transform: rotate(0deg); }
     to { transform: rotate(180deg); }
 }
+
+/* Suggestion Dropdown Line Badges */
+.suggestion-name {
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 260px;
+}
+
+.suggestion-lines {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.suggestion-line-badge {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.65rem;
+    color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.suggestion-line-badge.line-N,
+.suggestion-line-badge.line-Q,
+.suggestion-line-badge.line-R,
+.suggestion-line-badge.line-W {
+    color: #000;
+}

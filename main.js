@@ -309,16 +309,38 @@ function filterStations(val, dropdown, input) {
         const div = document.createElement("div");
         div.classList.add("autocomplete-item");
         
-        // Bold match substring
-        const index = name.toLowerCase().indexOf(val.toLowerCase());
-        if (index > -1 && val.length > 0) {
-            const before = name.substring(0, index);
-            const match = name.substring(index, index + val.length);
-            const after = name.substring(index + val.length);
-            div.innerHTML = `${before}<strong>${match}</strong>${after}`;
-        } else {
-            div.innerText = name;
+        // Parse station name and served lines
+        let stationName = name;
+        let lines = [];
+        if (name.includes("[") && name.includes("]")) {
+            const parts = name.split("[");
+            stationName = parts[0].trim();
+            lines = parts[1].replace("]", "").split(",");
         }
+
+        // Bold match substring inside the station name
+        const index = stationName.toLowerCase().indexOf(val.toLowerCase());
+        let nameHTML = "";
+        if (index > -1 && val.length > 0) {
+            const before = stationName.substring(0, index);
+            const match = stationName.substring(index, index + val.length);
+            const after = stationName.substring(index + val.length);
+            nameHTML = `<span class="suggestion-name">${before}<strong>${match}</strong>${after}</span>`;
+        } else {
+            nameHTML = `<span class="suggestion-name">${stationName}</span>`;
+        }
+
+        // Build lines badges HTML
+        let linesHTML = "";
+        if (lines.length > 0) {
+            linesHTML = `<div class="suggestion-lines">`;
+            lines.forEach(line => {
+                linesHTML += `<span class="suggestion-line-badge line-${line.trim()}">${line.trim()}</span>`;
+            });
+            linesHTML += `</div>`;
+        }
+
+        div.innerHTML = nameHTML + linesHTML;
 
         // Add selection listener
         div.addEventListener("click", () => {
