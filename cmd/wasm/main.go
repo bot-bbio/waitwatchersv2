@@ -126,7 +126,7 @@ func getStationNamesWrapper(this js.Value, args []js.Value) interface{} {
 }
 
 func main() {
-	fmt.Println("WaitWatchersV2 WebAssembly Loaded")
+	fmt.Println("WaitWatchers WebAssembly Loaded")
 	
 	// Expose the functions to the global JS scope
 	js.Global().Set("calculateWaitDelta", js.FuncOf(calculateWaitDeltaWrapper))

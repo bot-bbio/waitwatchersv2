@@ -10,8 +10,7 @@ let activeDropdownIndex = -1;
 WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject).then((result) => {
     go.run(result.instance);
     document.getElementById("status").innerText = "Decision Engine Active";
-    console.log("WaitWatchersV2 Wasm module initialized.");
-    
+    console.log("WaitWatchers Wasm module initialized.");
     // Initialize station names
     stationNames = getStationNames().sort();
     
