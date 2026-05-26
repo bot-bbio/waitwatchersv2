@@ -81,24 +81,24 @@ Standard navigation tools (e.g., Google Maps, Apple Maps) focus on routing from 
 
 ```mermaid
 graph TD
-    subgraph Client Environment (Browser / CLI)
-        UI[Glanceable HTML/CSS UI] <--> JS[main.js Autocomplete / DOM]
-        JS <--> WASM[main.wasm Go Engine]
-        CLI[mach.exe CLI Tool] <--> Engine[Go Calculation Engine]
+    subgraph Client ["Client Environment (Browser / CLI)"]
+        UI["Glanceable HTML/CSS UI"] --- JS["main.js Autocomplete / DOM"]
+        JS --- WASM["main.wasm Go Engine"]
+        CLI["mach.exe CLI Tool"] --- Engine["Go Calculation Engine"]
     end
 
-    subgraph Proxy Layer
-        LocalProxy[cmd/serve/main.go Local Proxy]
-        PublicProxy[allorigins.win Public Proxy]
+    subgraph Proxy ["Proxy Layer"]
+        LocalProxy["cmd/serve/main.go Local Proxy"]
+        PublicProxy["allorigins.win Public Proxy"]
     end
 
-    subgraph Data Layer
-        MTA[MTA GTFS-RT Feeds API]
+    subgraph Data ["Data Layer"]
+        MTA["MTA GTFS-RT Feeds API"]
     end
 
-    WASM -- localhost --o LocalProxy
-    WASM -- github.io --o PublicProxy
-    Engine -- Direct CLI --o MTA
+    WASM -->|localhost| LocalProxy
+    WASM -->|github.io| PublicProxy
+    Engine -->|Direct CLI| MTA
     LocalProxy --> MTA
     PublicProxy --> MTA
 ```
