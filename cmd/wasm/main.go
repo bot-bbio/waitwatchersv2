@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"strings"
 	"syscall/js"
 	"time"
 
@@ -62,7 +63,13 @@ func calculateWaitDeltaWrapper(this js.Value, args []js.Value) interface{} {
 			urls := make([]string, len(mtaURLs))
 			for i, u := range mtaURLs {
 				if useProxy {
-					urls[i] = fmt.Sprintf("%s/api/mta?url=%s", origin, url.QueryEscape(u))
+					if strings.Contains(origin, "github.io") {
+						// On GitHub Pages, use public allorigins proxy to bypass CORS
+						urls[i] = fmt.Sprintf("https://api.allorigins.win/raw?url=%s", url.QueryEscape(u))
+					} else {
+						// On localhost, use local dev server proxy
+						urls[i] = fmt.Sprintf("%s/api/mta?url=%s", origin, url.QueryEscape(u))
+					}
 				} else {
 					urls[i] = u
 				}
